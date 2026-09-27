@@ -27,6 +27,7 @@ import thumbnailImg from "@/assets/portfolio/thumbnail.jpg";
 import editImg from "@/assets/portfolio/edit.jpg";
 import siteImg from "@/assets/portfolio/site.jpg";
 import panfletoImg from "@/assets/portfolio/panfleto.jpg";
+import { Button } from "@/components/ui/button";
 
 /*
  * Substitua pelo número real de WhatsApp (DDI + DDD + número, só dígitos).
@@ -238,9 +239,9 @@ function Nav() {
           <span className="hidden sm:inline">Pedir orçamento</span>
           <span className="sm:hidden">Pedir</span>
         </a>
-        <button type="button" aria-label={isOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={isOpen} onClick={() => setIsOpen((open) => !open)} className="border-border bg-card text-foreground grid h-11 w-11 shrink-0 place-items-center rounded-full border md:hidden">
+        <Button type="button" variant="outline" size="icon" aria-label={isOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={isOpen} onClick={() => setIsOpen((open) => !open)} className="border-border bg-card text-foreground h-11 w-11 shrink-0 rounded-full md:hidden">
           {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        </Button>
       </nav>
       {isOpen && (
         <div className="border-border bg-background border-t px-4 py-3 md:hidden">
@@ -263,19 +264,6 @@ function Hero() {
       id="inicio"
       className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 pt-28 pb-20 sm:px-6"
     >
-      <div
-        className="hero-orb bg-primary/50 h-96 w-96"
-        style={{ top: "-6rem", left: "-8rem" }}
-      />
-      <div
-        className="hero-orb bg-cyan-neon/40 h-80 w-80"
-        style={{ bottom: "-4rem", right: "-6rem", animationDelay: "2s" }}
-      />
-      <div
-        className="hero-orb bg-primary/40 h-64 w-64"
-        style={{ top: "40%", right: "20%", animationDelay: "4s" }}
-      />
-
       <div className="relative mx-auto max-w-4xl text-center">
         <Reveal>
           <div className="pulse-badge border-primary/50 bg-neon-soft mb-8 inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-bold sm:text-sm">
@@ -567,9 +555,9 @@ function Testimonials() {
                 {Array.from({ length: 5 }).map((_, index) => {
                   const value = index + 1;
                   return (
-                    <button key={value} type="button" aria-label={`${value} estrela${value > 1 ? "s" : ""}`} onClick={() => setRating(value)} className="focus:ring-primary grid h-11 w-11 place-items-center rounded-lg outline-none focus:ring-2">
+                    <Button key={value} type="button" variant="ghost" size="icon" aria-label={`${value} estrela${value > 1 ? "s" : ""}`} onClick={() => setRating(value)} className="focus:ring-primary h-11 w-11 rounded-lg outline-none focus:ring-2">
                       <Star className={`h-7 w-7 ${value <= rating ? "fill-primary text-primary" : "text-muted-foreground"}`} />
-                    </button>
+                    </Button>
                   );
                 })}
               </div>
@@ -578,9 +566,9 @@ function Testimonials() {
               Avaliação
               <textarea name="review" required minLength={10} maxLength={500} rows={5} placeholder="Escreva sua avaliação..." className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary w-full resize-y rounded-xl border p-4 outline-none focus:ring-2" />
             </label>
-            <button type="submit" className="btn-glow bg-primary text-primary-foreground inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 font-bold sm:w-auto sm:justify-self-start">
+            <Button type="submit" className="btn-glow bg-primary text-primary-foreground min-h-12 w-full rounded-full px-6 py-3 font-bold sm:w-auto sm:justify-self-start">
               <Send className="h-4 w-4" /> Enviar avaliação
-            </button>
+            </Button>
             {submitted && <p role="status" className="text-primary text-sm font-semibold">Obrigado! Sua avaliação foi adicionada à página.</p>}
           </div>
         </form>
@@ -662,7 +650,7 @@ function Footer() {
           ))}
         </div>
         <p className="text-muted-foreground text-xs sm:text-sm">
-          © 2026 neo.design — Designs, Edits & Sites. Todos os direitos
+          © 2026 Rato edit — Designs, Edits & Sites. Todos os direitos
           reservados.
         </p>
       </div>
