@@ -8,3 +8,8 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- Landing page é uma página única (`src/routes/index.tsx`) com seções por âncora; design system completo em `src/styles.css` (dark-only, roxo neon + ciano). Componentes usam tokens semânticos, nunca cores fixas.
+- O link de WhatsApp centraliza-se na constante `WHATSAPP_NUMBER` em `src/routes/index.tsx` — número placeholder até o usuário fornecer o real.
