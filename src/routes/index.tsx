@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import {
   Star,
   MessageCircle,
@@ -8,7 +8,6 @@ import {
   Clapperboard,
   Globe,
   ArrowRight,
-  Check,
   Zap,
   Instagram,
   Music2,
@@ -18,6 +17,8 @@ import {
   CreditCard,
   PenLine,
   BadgeCheck,
+  Menu,
+  X,
 } from "lucide-react";
 
 import cartazImg from "@/assets/portfolio/cartaz.jpg";
@@ -42,17 +43,17 @@ export const Route = createFileRoute("/")({
     meta: [
       {
         title:
-          "Designs, Edits e Sites Profissionais | Preço que Cabe no Seu Bolso",
+          "Rato edit | Designs, Edits e Sites Profissionais",
       },
       {
         name: "description",
         content:
-          "Cartazes e artes no Canva a partir de R$ 10, edição de vídeo a partir de R$ 15 e landing pages a partir de R$ 60. Promoção de inauguração para os primeiros 5 clientes!",
+          "Rato edit cria designs, edições de vídeo e sites profissionais para redes sociais, eventos e negócios.",
       },
       {
         property: "og:title",
         content:
-          "Designs, Edits e Sites Profissionais por um Preço que Cabe no Seu Bolso",
+          "Rato edit — Designs, Edits e Sites Profissionais",
       },
       {
         property: "og:description",
@@ -148,42 +149,6 @@ function Stars() {
 
 /* ---------- dados ---------- */
 
-const services = [
-  {
-    icon: Palette,
-    title: "Cartazes & Artes no Canva",
-    description:
-      "Artes para redes sociais, cartazes de eventos, panfletos, avisos e banners no Canva.",
-    price: "R$ 10,00",
-    promo: "R$ 5 a R$ 8",
-    details: ["Entrega rápida", "Até 2 alterações grátis"],
-    accent: "neon" as const,
-  },
-  {
-    icon: Clapperboard,
-    title: "Edição de Vídeo / Edits",
-    description:
-      "Cortes dinâmicos, legendas, efeitos e ritmo para Shorts, TikToks, Reels ou vídeos do YouTube.",
-    price: "R$ 15,00",
-    promo: "R$ 10,00",
-    details: [
-      "Ideal para começar a criar conteúdo gastando pouco",
-      "Até 2 alterações grátis",
-    ],
-    accent: "cyan" as const,
-  },
-  {
-    icon: Globe,
-    title: "Criação de Sites Simples",
-    description:
-      "Criação e montagem de páginas modernas e responsivas para apresentar seu trabalho ou negócio.",
-    price: "R$ 60,00",
-    promo: "R$ 40,00",
-    details: ["Landing page moderna e responsiva", "Até 2 alterações grátis"],
-    accent: "neon" as const,
-  },
-];
-
 const portfolio = [
   { img: cartazImg, tag: "Cartaz de Evento", title: "Cartaz Neon Night" },
   { img: postImg, tag: "Arte no Canva", title: "Post Promocional" },
@@ -225,11 +190,6 @@ const testimonials = [
     role: "Criador de conteúdo",
     text: "Meus Shorts nunca tiveram tantas visualizações. Os edits ficaram exatamente com o estilo que eu queria.",
   },
-  {
-    name: "Dona Cida",
-    role: "Açaí da Cida",
-    text: "O sitezinho da minha loja ficou lindo e muito barato. Já mandei para todas as minhas clientes!",
-  },
 ];
 
 /* ---------- página ---------- */
@@ -241,7 +201,6 @@ function Index() {
       <main>
         <Hero />
         <About />
-        <Services />
         <Portfolio />
         <HowItWorks />
         <Testimonials />
@@ -253,41 +212,47 @@ function Index() {
 }
 
 function Nav() {
+  const [isOpen, setIsOpen] = useState(false);
   const links = [
     { href: "#sobre", label: "Sobre" },
-    { href: "#servicos", label: "Serviços" },
     { href: "#portfolio", label: "Portfólio" },
     { href: "#como-funciona", label: "Como Funciona" },
     { href: "#avaliacoes", label: "Avaliações" },
   ];
+
   return (
-    <header className="border-border/60 bg-background/80 fixed inset-x-0 top-0 z-50 border-b backdrop-blur-lg">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <a href="#inicio" className="font-display text-lg font-bold tracking-tight">
-          neo<span className="text-gradient">.design</span>
+    <header className="border-border/60 bg-background/90 fixed inset-x-0 top-0 z-50 border-b backdrop-blur-lg">
+      <nav className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-3 px-4 py-3 sm:px-6 md:flex md:justify-between">
+        <a href="#inicio" className="font-display min-w-0 truncate text-lg font-bold">
+          Rato <span className="text-gradient">edit</span>
         </a>
         <div className="hidden items-center gap-6 md:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-muted-foreground hover:text-cyan-neon text-sm transition-colors"
-            >
-              {l.label}
+          {links.map((link) => (
+            <a key={link.href} href={link.href} className="text-muted-foreground hover:text-primary text-sm transition-colors">
+              {link.label}
             </a>
           ))}
         </div>
-        <a
-          href={WA_PEDIDO}
-          target="_blank"
-          rel="noreferrer"
-          className="btn-glow bg-primary text-primary-foreground inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
-        >
+        <a href={WA_PEDIDO} target="_blank" rel="noreferrer" className="btn-glow bg-primary text-primary-foreground inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold">
           <MessageCircle className="h-4 w-4" />
           <span className="hidden sm:inline">Pedir orçamento</span>
           <span className="sm:hidden">Pedir</span>
         </a>
+        <button type="button" aria-label={isOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={isOpen} onClick={() => setIsOpen((open) => !open)} className="border-border bg-card text-foreground grid h-11 w-11 shrink-0 place-items-center rounded-full border md:hidden">
+          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </nav>
+      {isOpen && (
+        <div className="border-border bg-background border-t px-4 py-3 md:hidden">
+          <div className="mx-auto grid max-w-6xl gap-1">
+            {links.map((link) => (
+              <a key={link.href} href={link.href} onClick={() => setIsOpen(false)} className="text-foreground hover:bg-neon-soft rounded-lg px-4 py-3 text-base font-medium transition-colors">
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -354,10 +319,10 @@ function Hero() {
               Garantir meu Desconto no WhatsApp
             </a>
             <a
-              href="#servicos"
+              href="#portfolio"
               className="btn-glow border-cyan-neon/50 text-cyan-neon inline-flex w-full items-center justify-center gap-2 rounded-full border bg-transparent px-8 py-4 text-base font-semibold sm:w-auto"
             >
-              Ver Serviços e Preços
+              Ver Portfólio
               <ArrowRight className="h-5 w-5" />
             </a>
           </div>
@@ -446,90 +411,6 @@ function About() {
             </Reveal>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-function Services() {
-  return (
-    <section id="servicos" className="relative px-4 py-24 sm:px-6">
-      <SectionTitle
-        eyebrow="Serviços & Preços"
-        title={
-          <>
-            Tabela de <span className="text-gradient">preços fixos</span>
-          </>
-        }
-        subtitle="Sem pegadinhas: você já sabe quanto vai pagar antes de falar comigo. E quem chegar primeiro paga ainda menos."
-      />
-
-      <div className="mx-auto mt-14 grid max-w-6xl gap-6 md:grid-cols-3">
-        {services.map((s, i) => (
-          <Reveal key={s.title} delay={i * 120}>
-            <div className="interactive-card border-border bg-card relative flex h-full flex-col overflow-hidden rounded-3xl border p-7">
-              <div className="card-shine pointer-events-none absolute inset-0" />
-              <div
-                className={`mb-5 flex h-14 w-14 items-center justify-center rounded-2xl ${
-                  s.accent === "cyan"
-                    ? "bg-cyan-neon/15 text-cyan-neon"
-                    : "bg-neon-soft text-primary"
-                }`}
-              >
-                <s.icon className="h-7 w-7" />
-              </div>
-              <h3 className="font-display text-xl font-bold">{s.title}</h3>
-              <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
-                {s.description}
-              </p>
-
-              <div className="border-primary/30 bg-neon-soft/60 mt-6 rounded-2xl border p-4">
-                <p className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">
-                  Preço fixo de início
-                </p>
-                <p className="mt-1 flex flex-wrap items-baseline gap-2">
-                  <span className="text-muted-foreground text-sm line-through">
-                    {s.price}
-                  </span>
-                  <span
-                    className={`font-display text-3xl font-bold ${
-                      s.accent === "cyan" ? "text-cyan-neon" : "text-gradient"
-                    }`}
-                  >
-                    {s.promo}
-                  </span>
-                </p>
-                <p className="text-cyan-neon mt-2 inline-flex items-center gap-1.5 text-xs font-semibold">
-                  🎯 Oferta 5 primeiros clientes
-                </p>
-              </div>
-
-              <ul className="mt-5 space-y-2">
-                {s.details.map((d) => (
-                  <li
-                    key={d}
-                    className="text-muted-foreground flex items-start gap-2 text-sm"
-                  >
-                    <Check className="text-cyan-neon mt-0.5 h-4 w-4 shrink-0" />
-                    {d}
-                  </li>
-                ))}
-              </ul>
-
-              <a
-                href={wa(
-                  `Olá! Tenho interesse em: ${s.title} (promoção de inauguração 🎉)`,
-                )}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-glow bg-primary text-primary-foreground mt-7 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold"
-              >
-                <MessageCircle className="h-4 w-4" />
-                Pedir este serviço
-              </a>
-            </div>
-          </Reveal>
-        ))}
       </div>
     </section>
   );
@@ -631,30 +512,39 @@ function HowItWorks() {
 }
 
 function Testimonials() {
-  return (
-    <section id="avaliacoes" className="px-4 py-24 sm:px-6">
-      <SectionTitle
-        eyebrow="Depoimentos"
-        title="O que dizem sobre o trabalho"
-        subtitle="Avaliações dos primeiros clientes."
-      />
+  const [feedbacks, setFeedbacks] = useState(testimonials);
+  const [rating, setRating] = useState(5);
+  const [submitted, setSubmitted] = useState(false);
 
-      <div className="mx-auto mt-14 grid max-w-6xl gap-6 md:grid-cols-3">
-        {testimonials.map((t, i) => (
-          <Reveal key={t.name} delay={i * 120}>
-            <div className="interactive-card border-border bg-card relative flex h-full flex-col rounded-3xl border p-7">
+  function submitFeedback(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") ?? "").trim();
+    const text = String(data.get("review") ?? "").trim();
+    if (!name || !text || name.length > 80 || text.length > 500) return;
+    setFeedbacks((current) => [...current, { name, role: `${rating}/5 estrelas`, text }]);
+    form.reset();
+    setRating(5);
+    setSubmitted(true);
+  }
+
+  return (
+    <section id="avaliacoes" className="px-4 py-20 sm:px-6 sm:py-24">
+      <SectionTitle eyebrow="Depoimentos" title="O que dizem sobre o trabalho" subtitle="Avaliações dos primeiros clientes." />
+
+      <div className="mx-auto mt-12 grid max-w-6xl gap-6 sm:grid-cols-2 lg:mt-14">
+        {feedbacks.map((testimonial, index) => (
+          <Reveal key={`${testimonial.name}-${index}`} delay={(index % 2) * 100}>
+            <div className="interactive-card border-border bg-card relative flex h-full flex-col rounded-3xl border p-6 sm:p-7">
               <div className="card-shine pointer-events-none absolute inset-0 rounded-3xl" />
               <Stars />
-              <p className="text-muted-foreground mt-4 flex-1 text-sm leading-relaxed">
-                “{t.text}”
-              </p>
-              <div className="border-border mt-6 flex items-center gap-3 border-t pt-5">
-                <div className="bg-neon-soft font-display text-primary flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold">
-                  {t.name.charAt(0)}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold">{t.name}</p>
-                  <p className="text-muted-foreground text-xs">{t.role}</p>
+              <p className="text-muted-foreground mt-4 flex-1 text-sm leading-relaxed">“{testimonial.text}”</p>
+              <div className="border-border mt-6 flex min-w-0 items-center gap-3 border-t pt-5">
+                <div className="bg-neon-soft font-display text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold">{testimonial.name.charAt(0)}</div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold">{testimonial.name}</p>
+                  <p className="text-muted-foreground truncate text-xs">{testimonial.role}</p>
                 </div>
               </div>
             </div>
@@ -662,12 +552,38 @@ function Testimonials() {
         ))}
       </div>
 
-      <Reveal delay={200}>
-        <p className="text-muted-foreground mx-auto mt-10 max-w-xl text-center text-sm sm:text-base">
-          Seja um dos{" "}
-          <strong className="text-gradient-cyan">primeiros 5 clientes</strong>,
-          garanta seu desconto e deixe sua avaliação aqui!
-        </p>
+      <Reveal delay={150}>
+        <form onSubmit={submitFeedback} className="border-border bg-card mx-auto mt-10 max-w-2xl rounded-3xl border p-5 sm:p-8">
+          <h3 className="font-display text-xl font-bold sm:text-2xl">Deixe sua avaliação</h3>
+          <p className="text-muted-foreground mt-2 text-sm">Conte como foi sua experiência com a Rato edit.</p>
+          <div className="mt-6 grid gap-5">
+            <label className="grid gap-2 text-sm font-semibold">
+              Nome
+              <input name="name" required minLength={2} maxLength={80} autoComplete="name" placeholder="Seu nome" className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary min-h-12 w-full rounded-xl border px-4 outline-none focus:ring-2" />
+            </label>
+            <fieldset>
+              <legend className="text-sm font-semibold">Estrelas</legend>
+              <div className="mt-2 flex gap-1" aria-label={`${rating} de 5 estrelas`}>
+                {Array.from({ length: 5 }).map((_, index) => {
+                  const value = index + 1;
+                  return (
+                    <button key={value} type="button" aria-label={`${value} estrela${value > 1 ? "s" : ""}`} onClick={() => setRating(value)} className="focus:ring-primary grid h-11 w-11 place-items-center rounded-lg outline-none focus:ring-2">
+                      <Star className={`h-7 w-7 ${value <= rating ? "fill-primary text-primary" : "text-muted-foreground"}`} />
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+            <label className="grid gap-2 text-sm font-semibold">
+              Avaliação
+              <textarea name="review" required minLength={10} maxLength={500} rows={5} placeholder="Escreva sua avaliação..." className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary w-full resize-y rounded-xl border p-4 outline-none focus:ring-2" />
+            </label>
+            <button type="submit" className="btn-glow bg-primary text-primary-foreground inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 font-bold sm:w-auto sm:justify-self-start">
+              <Send className="h-4 w-4" /> Enviar avaliação
+            </button>
+            {submitted && <p role="status" className="text-primary text-sm font-semibold">Obrigado! Sua avaliação foi adicionada à página.</p>}
+          </div>
+        </form>
       </Reveal>
     </section>
   );
@@ -729,7 +645,7 @@ function Footer() {
     <footer className="border-border border-t px-4 py-12 sm:px-6">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center">
         <a href="#inicio" className="font-display text-xl font-bold tracking-tight">
-          neo<span className="text-gradient">.design</span>
+          Rato <span className="text-gradient">edit</span>
         </a>
         <div className="flex items-center gap-4">
           {socials.map((s) => (
